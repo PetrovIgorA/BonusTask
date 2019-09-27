@@ -27,10 +27,12 @@ int main()
 
     auto isFound = MakePredicate(items);
     auto isFoundNew = MakePredicate(newItems);
-    assert(isFound(0) == true);
-    assert(isFound(7) == false);
-    assert(isFoundNew(7) == true);
-    assert(isFoundNew(6) == false);
+    auto isFound_r = MakePredicate_r(items);
+    auto isFoundNew_r = MakePredicate_r(newItems);
+    assert(isFound(0) == true);    assert(isFound_r(0) == true);
+    assert(isFound(7) == false);   assert(isFound_r(7) == false);
+    assert(isFoundNew(7) == true); assert(isFoundNew_r(7) == true);
+    assert(isFoundNew(6) == false);assert(isFoundNew_r(6) == false);
 
     return 0;
 }

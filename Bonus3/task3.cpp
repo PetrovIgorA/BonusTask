@@ -15,11 +15,11 @@ return ::operator delete(p);
 };
 
 template <class T>
-struct MyAllocator {
-    typedef T value_type;
+struct PetrovAllocator {
+    using value_type = T;
 
-    MyAllocator() noexcept {}
-    template <class U> MyAllocator (const MyAllocator<U>&) noexcept {}
+    PetrovAllocator() noexcept {}
+    template <class U> PetrovAllocator (const PetrovAllocator<U>&) noexcept {}
     
     T* allocate (std::size_t n) {
         return static_cast<T*>( A::operator new(n*sizeof(T)));
@@ -32,6 +32,6 @@ struct MyAllocator {
 
 
 int main() {
-MyAllocator<A> alloc;
-auto sp = std::allocate_shared<A>(alloc);
+    PetrovAllocator<A> alloc;
+    auto sp = std::allocate_shared<A>(alloc);
 }

@@ -14,24 +14,25 @@ return ::operator delete(p);
 }
 };
 
-template <class T>
+template <class Some, class T>
 struct PetrovAllocator {
-    using value_type = T;
+    using value_type = Some;
 
     PetrovAllocator() noexcept {}
-    template <class U> PetrovAllocator (const PetrovAllocator<U>&) noexcept {}
+    template <class TT, class TTT> PetrovAllocator (const PetrovAllocator<TT, TTT>&) noexcept {}
     
-    T* allocate (std::size_t n) {
-        return static_cast<T*>( A::operator new(n*sizeof(T)));
+    Some* allocate (std::size_t n) {
+        return static_cast<Some*> (T::operator new(n * sizeof(T)));
     }
-    void deallocate (T* p, std::size_t n) {
-        A::operator delete(p, n);
+    void deallocate (Some* p, std::size_t n) {
+        T::operator delete(p, n * sizeof(T));
     }
+
+    ~PetrovAllocator() {}
 
 };
 
 
 int main() {
-    PetrovAllocator<A> alloc;
-    auto sp = std::allocate_shared<A>(alloc);
+    auto sp = std::allocate_shared<A>(PetrovAllocator<A, A>());
 }

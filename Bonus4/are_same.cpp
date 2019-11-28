@@ -3,15 +3,16 @@
 
 // no comments because ochev
 
-template<class T, class... Tail>
+template<class... Tail>
 struct are_same : public std::false_type {};
 
-template<class FirsType, class SecondType>
-struct are_same<FirsType, SecondType> : public std::is_same<FirsType, SecondType> {};
+template<class FirstType, class SecondType>
+struct are_same<FirstType, SecondType>
+: public std::is_same<std::decay_t<FirstType>, std::decay_t<SecondType>> {};
 
 template<class T, class TT, class... Tail>
 struct are_same<T, TT, Tail...>
-: public std::bool_constant<std::is_same_v<T, TT> && are_same<T, Tail...>::value >
+: public std::bool_constant<std::is_same_v<std::decay_t<T>, std::decay_t<TT>> && are_same<T, Tail...>::value >
 {
 };
 
@@ -21,8 +22,12 @@ constexpr bool are_same_v = are_same<Args...>::value;
 
 int main()
 {
-    std::cout << are_same_v<int, int32_t, signed int> << std::endl; // true
-    std::cout << are_same_v<char, int, bool> << std::endl;          // false
+    // true
+    std::cout << are_same_v<int, int32_t, signed int> << std::endl;
+    // true
+    std::cout << are_same_v<int, int32_t&, const signed int, const int&> << std::endl;
+    // false
+    std::cout << are_same_v<char, int, bool> << std::endl;
 
     return 0;
 }

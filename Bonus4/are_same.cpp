@@ -4,7 +4,7 @@
 // no comments because ochev
 
 template<class... Tail>
-struct are_same : public std::false_type {};
+struct are_same;
 
 template<class FirstType, class SecondType>
 struct are_same<FirstType, SecondType>

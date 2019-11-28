@@ -100,7 +100,7 @@ TEST(checkException, Underflow_test)
 {
     EXPECT_THROW(negSubPos(INT32_MIN + 1, 3), UnderflowException);
     EXPECT_THROW(negSubPos(INT32_MIN + 9, 21), UnderflowException);
-    EXPECT_NO_THROW(negSubPos(78, 87));
+    EXPECT_NO_THROW(negSubPos(-78, 87));
 
     EXPECT_NO_THROW(negSubPos(INT32_MIN + 8, 2));
 

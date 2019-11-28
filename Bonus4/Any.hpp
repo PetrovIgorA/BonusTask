@@ -9,7 +9,7 @@ class Bad_Any_cast : public std::bad_cast
 public:
     Bad_Any_cast() noexcept {}
 
-    virtual const char * what() const noexcept { return "bad Any cast"; }
+    virtual const char * what() const noexcept override { return "bad Any cast"; }
 
     virtual ~Bad_Any_cast() noexcept {}
 };

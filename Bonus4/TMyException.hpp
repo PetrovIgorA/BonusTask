@@ -14,7 +14,7 @@ public:
     TMyException(const std::string& msg) : std::logic_error(msg), message_error(msg) {}
 
     virtual void operator<< (const std::string&);
-    virtual const char * what() const noexcept;
+    virtual const char * what() const noexcept override;
 
     virtual ~TMyException() noexcept {}
 protected:

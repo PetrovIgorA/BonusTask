@@ -1,7 +1,16 @@
 #include<type_traits>
 #include<iostream>
 
-// no comments because ochev
+/*
+    if I cann't use std::bool_constant then
+    I write my bool_constant:
+
+    template<bool T> struct bool_constant;
+    template<> struct bool_constant<true> : public std::true_type {};
+    template<> struct bool_constant<false> : public std::false_type {};
+
+    It's work!
+*/
 
 template<class... Tail>
 struct are_same;

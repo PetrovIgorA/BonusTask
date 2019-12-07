@@ -2,8 +2,10 @@
 #include<cstdint>
 #include<stdexcept>
 #include<iterator>
+#include<functional>
 
 class Range;
+struct hashRange;
 
 class ForwardIteratorRange
 {
@@ -41,14 +43,21 @@ class Range
 {
 public:
     using const_iterator = ForwardIteratorRange;
+    friend class hashRange;
 
-    Range(int64_t);
+    explicit Range(int64_t);
     Range(int64_t, int64_t, int64_t = 1);
     Range(const Range&) = default;
     Range(Range&&) = default;
 
     Range& operator= (const Range&) = default;
     Range& operator= (Range&&) = default;
+
+    bool operator== (const Range&) const noexcept;
+
+    int64_t getStart() const noexcept { return start; }
+    int64_t getStop() const noexcept { return stop; }
+    int64_t getStep() const noexcept { return step; }
 
     uint64_t size() const noexcept;
     std::optional<int64_t> operator[] (uint64_t) const noexcept;
@@ -57,6 +66,16 @@ public:
 
 private:
     int64_t start, stop, step;
+};
+
+struct hashRange
+{
+    size_t
+    operator() (const Range& _range) const noexcept
+    {
+        std::hash<int64_t> hashInt;
+        return hashInt(_range.start) ^ hashInt(_range.stop) ^ hashInt(_range.step);
+    }
 };
 
 Range::Range(int64_t _stop) : start(0), stop(_stop), step(1)
@@ -69,6 +88,12 @@ Range::Range(int64_t _start, int64_t _stop, int64_t _step) : start(_start), stop
         throw std::invalid_argument("step = 0");
     }
     step = _step;
+}
+
+bool
+Range::operator== (const Range& other) const noexcept
+{
+    return (start == other.start) && (stop == other.stop) && (step == other.step);
 }
 
 uint64_t

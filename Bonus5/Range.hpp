@@ -178,7 +178,7 @@ ForwardIteratorRange::operator!= (const ForwardIteratorRange& other) const noexc
 ForwardIteratorRange::value_type
 ForwardIteratorRange::operator* () const
 {
-    std::optional<uint64_t> tmp = range_ptr->operator[](index);
+    std::optional<value_type> tmp = range_ptr->operator[](index);
 
     if (tmp.has_value() == false) {
         throw std::out_of_range("not exist value for dereferenced iterator");

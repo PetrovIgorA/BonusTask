@@ -15,7 +15,7 @@ void saveOrderedVectorInMapWithHint(
 {
     auto hint_iter = data.lower_bound(vec.size() - 1);
     for (size_t i = 0; i < vec.size(); ++i) {
-        hint_iter = data.insert(hint_iter, { vec[0], vec[0] });
+        hint_iter = data.insert(hint_iter, { vec[i], vec[i] });
     }
 }
 
@@ -24,7 +24,7 @@ void saveOrderedVectorInMapWithoutHint(
         std::map<int, int> data)
 {
     for (size_t i = 0; i < vec.size(); ++i) {
-        data.insert({ vec[0], vec[0] });
+        data.insert({ vec[i], vec[i] });
     }
 }
 

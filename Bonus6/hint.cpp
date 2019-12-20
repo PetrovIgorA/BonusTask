@@ -11,9 +11,10 @@
 
 void saveOrderedVectorInMapWithHint(
         const std::vector<int>& vec,
-        std::map<int, int> data)
+        std::map<int, int> data,
+        int firstValueForHint)
 {
-    auto hint_iter = data.lower_bound(vec.size() - 1);
+    auto hint_iter = data.lower_bound(firstValueForHint);
     for (size_t i = 0; i < vec.size(); ++i) {
         hint_iter = data.insert(hint_iter, { vec[i], vec[i] });
     }
@@ -60,7 +61,7 @@ int main()
 
     start = clock();
     for (size_t i = 0; i < COUNT_ITER; ++i) {
-        saveOrderedVectorInMapWithHint(vecForwardOrdered, data);
+        saveOrderedVectorInMapWithHint(vecForwardOrdered, data, SIZE - 1);
     }
     std::cout << "With hint: " << static_cast<double>(clock() - start) / CLOCKS_PER_SEC << " s" << std::endl;
 
@@ -73,9 +74,9 @@ int main()
 
     start = clock();
     for (size_t i = 0; i < COUNT_ITER; ++i) {
-        saveOrderedVectorInMapWithHint(vecReverseOrdered, data);
+        saveOrderedVectorInMapWithHint(vecReverseOrdered, data, 2 * SIZE);
     }
-    std::cout << "With hint: " << static_cast<double>(clock() - start) / CLOCKS_PER_SEC << " s" << std::endl;
+    std::cout << "With hint: " << static_cast<double>(clock() - start) / CLOCKS_PER_SEC << " s\n" << std::endl;
 
     return 0;
 }
